@@ -1,11 +1,12 @@
 1. Ссылка на репозиторий GitHub в котором находятся файлы указанные в последующих пунктах.
 https://github.com/AlexeyWu/test_vm
-2. Vagrantfile, который будет разворачивать виртуальную машину используя vagrant box который вы загрузили Vagrant Cloud.
+2. Vagrantfile, который будет разворачивать виртуальную машину используя vagrant box,
+   который вы загрузили Vagrant Cloud.
 https://github.com/AlexeyWu/test_vm/blob/main/packer/Vagrantfile
 
 3. Документация по каждому заданию:
 
-======================================ЗАДАНИЕ №1====================================
+=====================ЗАДАНИЕ №1===========================
 
 Vagrant-стенд для обновления ядра и создания образа системы
 
@@ -26,9 +27,13 @@ https://github.com/AlexeyWu/test_vm/blob/main/packer/Vagrantfile
         https://app.vagrantup.com/saint1418/boxes/centos8-kernel5
 
 Code скачивания образа на основе собранного выше Packer'ом для вставки в свой Vagrantfile:
+
 Vagrant.configure("2") do |config|
+
   config.vm.box = "saint1418/centos8-kernel5"
+
   config.vm.box_version = "1.0"
+    
 end
 
-=====================================================================================
+===========================================================+
