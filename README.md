@@ -6,21 +6,21 @@ _который вы загрузили Vagrant Cloud._
 
 
 <center>
-              **Документация по каждому заданию:**
-</center>
+**Документация по каждому заданию:**
+</center><br>
 =====================[**№1**](https://github.com/AlexeyWu/test_vm)===========================
 <br>
 <center>
-                 *** С чего начинается Linux ***
-</center>
+**С чего начинается Linux**
+</center><br>
 Репозиторий [**Vagrant-стенд для обновления ядра и создания образа системы**](https://github.com/AlexeyWu/test_vm)
 
 С помощью нашего стенда, создали образ системы на основе образа Ubuntu при помощи Packer
 
-**Конфигурационные файлы для Packer лежат в [репозитории](https://github.com/AlexeyWu/test_vm):**
+**Конфигурационные файлы для Packer [лежат в](https://github.com/AlexeyWu/test_vm/tree/main/packer):**
 
 **[_Kikstarter config_](https://github.com/AlexeyWu/test_vm/blob/main/packer/http/ks.cfg "ks.cfg - Kikstarter config")**  
-**[_Папка со скриптами_](https://github.com/AlexeyWu/test_vm/tree/main/packer/scripts "Папка со скриптами") участвующие в настроке VM**
+**[_Папка со скриптами_](https://github.com/AlexeyWu/test_vm/tree/main/packer/scripts "Папка со скриптами")**
 
 **Vagrantfile для скачивания подготовленного образа и запуска VM в VirtualBox:**
 [Vagrantfile](https://github.com/AlexeyWu/test_vm/blob/main/packer/Vagrantfile "Vagrantfile")
@@ -39,8 +39,8 @@ end
 =====================[**№2**](https://github.com/AlexeyWu/test_vm/tree/main/02raid)===========================
 <br>
 <center>
-                      ***Дисковая подсистема	***
-</center>
+**Дисковая подсистема**
+</center><br>
 Репозиторий [**Дисковая подсистема: работа с _mdadm_**](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
 
 С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/02raid/Vagrantfile) запустили наш стенд в котором добавили дисков для будущего RAID 6
@@ -54,28 +54,28 @@ end
 =====================[**№3**](https://github.com/AlexeyWu/test_vm/tree/main/03lvm1)===========================
 <br>
 <center>
-***Файловые системы и LVM***
+**Файловые системы и LVM**
 </center>
 Репозиторий [**Файловые системы и LVM**](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
 
 С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/03lvm1/Vagrantfile) запустили наш стенд на имеющемся образе (centos/7 1804.2) в котором проработали:
 
 уменьшили том / до 8G<br>
-выделили том под /home<br>
-выделить том под /var (/var - сделали в mirror)<br>
-для /home - сделать том для снэпшотов<br>
-прописали монтирование в fstab (попробовать с разными опциями и разными файловыми системами)<br>
+выделили том под _/home_<br>
+выделить том под _/var (/var - сделали в mirror)_<br>
+для _/home_ - сделать том для снэпшотов<br>
+прописали монтирование в _fstab_ (попробовать с разными опциями и разными файловыми системами)<br>
 Провели работу со снапшотами:<br>
-сгенерировали файлы в /home<br>
+сгенерировали файлы в _/home_<br>
 сняли снэпшот<br>
 удалили часть файлов<br>
 восстановились со снэпшота<br>
-залоггировали работу утилитой script, скриншотами и т.п.<br>
+залоггировали работу утилитой _script_, _скриншотами и т.п._<br>
 
 =====================[**№4**](https://github.com/AlexeyWu/test_vm/tree/main/zfs)===========================
 <br>
 <center>
-***ZFS***
+**ZFS**
 </center>
-Репозиторий [**Файловые системы и LVM_**](https://github.com/AlexeyWu/test_vm/tree/main/zfs)
+Репозиторий [**Файловые системы и LVM_**](https://github.com/AlexeyWu/test_vm/tree/main/zfs)<br>
 установить и настроить ZFS
