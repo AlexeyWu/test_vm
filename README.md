@@ -7,9 +7,7 @@ _который вы загрузили Vagrant Cloud._
 
 <h1 align="center">Документация по каждому заданию:</h1>
 <br>
-===================== [**№1**](https://github.com/AlexeyWu/test_vm) ===========================
-<br>
-<h1 align="center">**С чего начинается Linux**</h1>
+<h2 align="center">#1<a href="https://github.com/AlexeyWu/test_vm" target="_blank">С чего начинается Linux </a></h2>
 <br>
 Репозиторий [**Vagrant-стенд для обновления ядра и создания образа системы**](https://github.com/AlexeyWu/test_vm)
 
@@ -34,13 +32,11 @@ Vagrant.configure("2") do |config|
     config.vm.box_version = "1.0"
 end
 ```
-=====================[**№2**](https://github.com/AlexeyWu/test_vm/tree/main/02raid)===========================
-<br>
-
-<h1 align="center">**Дисковая подсистема**</h1>
 
 <br>
-Репозиторий [**Дисковая подсистема: работа с _mdadm_**](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
+<h2 align="center">#2<a href="https://github.com/AlexeyWu/test_vm/tree/main/02raid" target="_blank">Дисковая подсистема</a></h2>
+<br>
+Репозиторий [Дисковая подсистема: работа с _mdadm_](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
 
 С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/02raid/Vagrantfile) запустили наш стенд в котором добавили дисков для будущего RAID 6
 
@@ -50,11 +46,12 @@ end
 * создали GPT раздел, 5 партиций с ext4 и смонтировали их<br> 
 * прописали собранный рейд в конф, чтобы рейд собиралсā при загрузке
 
-=====================[**№3**](https://github.com/AlexeyWu/test_vm/tree/main/03lvm1)===========================
-<br>
-<h1 align="center">**Файловые системы и LVM**</h1>
 
-Репозиторий [**Файловые системы и LVM**](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
+<br>
+<h2 align="center">#3<a href="https://github.com/AlexeyWu/test_vm/tree/main/03lvm1" target="_blank">Файловые системы и LVM</a></h2>
+<br>
+
+Репозиторий [**Файловые системы и LVM**](https://github.com/AlexeyWu/test_vm/tree/main/03lvm1)
 
 С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/03lvm1/Vagrantfile) запустили наш стенд на имеющемся образе (centos/7 1804.2) в котором проработали:
 
@@ -70,10 +67,9 @@ end
 * восстановились со снэпшота
 * залоггировали работу утилитой _script_, _скриншотами и т.п._
 
-=====================[**№4**](https://github.com/AlexeyWu/test_vm/tree/main/zfs)===========================
+
 <br>
-<center>
-**ZFS**
-</center>
+<h2 align="center">#4<a href="https://github.com/AlexeyWu/test_vm/tree/main/zfs" target="_blank">ZFS</a></h2>
+<br>
 Репозиторий [**Файловые системы и LVM_**](https://github.com/AlexeyWu/test_vm/tree/main/zfs)<br>
 установить и настроить ZFS
