@@ -7,7 +7,7 @@ _который вы загрузили Vagrant Cloud._
 
 <h1 align="center">Документация по каждому заданию:</h1>
 <br>
-<h2 align="center">#1<a href="https://github.com/AlexeyWu/test_vm" target="_blank">С чего начинается Linux </a></h2>
+<h2 align="center">#1 <a href="https://github.com/AlexeyWu/test_vm" target="_blank">С чего начинается Linux </a></h2>
 <br>
 Репозиторий [**Vagrant-стенд для обновления ядра и создания образа системы**](https://github.com/AlexeyWu/test_vm)
 
@@ -34,7 +34,7 @@ end
 ```
 
 <br>
-<h2 align="center">#2<a href="https://github.com/AlexeyWu/test_vm/tree/main/02raid" target="_blank">Дисковая подсистема</a></h2>
+<h2 align="center">#2 <a href="https://github.com/AlexeyWu/test_vm/tree/main/02raid" target="_blank">Дисковая подсистема</a></h2>
 <br>
 Репозиторий [Дисковая подсистема: работа с _mdadm_](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
 
@@ -48,7 +48,7 @@ end
 
 
 <br>
-<h2 align="center">#3<a href="https://github.com/AlexeyWu/test_vm/tree/main/03lvm1" target="_blank">Файловые системы и LVM</a></h2>
+<h2 align="center">#3 <a href="https://github.com/AlexeyWu/test_vm/tree/main/03lvm1" target="_blank">Файловые системы и LVM</a></h2>
 <br>
 
 Репозиторий [**Файловые системы и LVM**](https://github.com/AlexeyWu/test_vm/tree/main/03lvm1)
@@ -69,7 +69,7 @@ end
 
 
 <br>
-<h2 align="center">#4<a href="https://github.com/AlexeyWu/test_vm/tree/main/zfs" target="_blank">ZFS</a></h2>
+<h2 align="center">#4 <a href="https://github.com/AlexeyWu/test_vm/tree/main/zfs" target="_blank">ZFS</a></h2>
 <br>
 Репозиторий [**Файловые системы и LVM_**](https://github.com/AlexeyWu/test_vm/tree/main/zfs)<br>
 установить и настроить ZFS
