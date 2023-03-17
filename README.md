@@ -35,8 +35,8 @@ end
 
 <br>
 <h2 align="center">#2 <a href="https://github.com/AlexeyWu/test_vm/tree/main/02raid" target="_blank">Дисковая подсистема</a></h2>
-<br>
-Репозиторий [Дисковая подсистема: работа с mdadm](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
+
+Репозиторий [Дисковая подсистема\: работа с mdadm](https://github.com/AlexeyWu/test_vm/tree/main/02raid)
 
 С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/02raid/Vagrantfile) запустили наш стенд в котором добавили дисков для будущего RAID 6
 
@@ -68,9 +68,8 @@ end
 * залоггировали работу утилитой _script_, _скриншотами и т.п._
 
 
-<br>
 <h2 align="center">#4 <a href="https://github.com/AlexeyWu/test_vm/tree/main/zfs" target="_blank">ZFS</a></h2>
-<br>
+
 Репозиторий [ZFS](https://github.com/AlexeyWu/test_vm/tree/main/zfs)
-<br>
+
 установить и настроить ZFS
