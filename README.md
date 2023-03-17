@@ -68,8 +68,10 @@ end
 * залоггировали работу утилитой _script_, _скриншотами и т.п._
 
 
-<h2 align="center">#4 <a href="https://github.com/AlexeyWu/test_vm/tree/main/zfs" target="_blank">ZFS</a></h2>
+<h2 align="center">#4 <a href="https://github.com/AlexeyWu/test_vm/tree/main/04zfs" target="_blank">ZFS</a></h2>
 
-Репозиторий [ZFS](https://github.com/AlexeyWu/test_vm/tree/main/zfs)
+Репозиторий [ZFS](https://github.com/AlexeyWu/test_vm/tree/main/04zfs)
 
-установить и настроить ZFS
+Устанавшливаем [Vagrantfile](https://github.com/AlexeyWu/test_vm/tree/main/04zfs/Vagrantfile) vb _centos\7 2004.1_
+
+
