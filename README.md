@@ -74,4 +74,46 @@ end
 
 Устанавшливаем [Vagrantfile](https://github.com/AlexeyWu/test_vm/tree/main/04zfs/Vagrantfile) vb _centos\7 2004.1_
 
+* Определяем алгоритм с наилучшим сжатием
+Исходя из тестов видно что наилучший алгоритм компресси при одинаковом наборе данных у нас _otus3_:
 
+ ```
+zfs list
+NAME    USED  AVAIL     REFER  MOUNTPOINT
+otus1  21,6M   330M     21,6M  /otus1
+otus2  17,7M   334M     17,6M  /otus2
+otus3  10,8M   341M     10,7M  /otus3
+otus4  39,1M   313M     39,1M  /otus4
+
+zfs get all | grep compressratio | grep -v refotus1
+otus1  compressratio         1.81x                      -
+otus2  compressratio         2.22x                      -
+otus3  compressratio         3.65x                      -
+otus4  compressratio         1.00x                      -
+
+ ```
+* Определим настройки pool
+    Скачали и разархивировали архив в домашний каталог
+    Проверили с помощью команды _zpool import -d zpoolexport/_ возможно ли импортировать каталог в _pool_
+    Импортировали данныый пул в нашу ОС с помощью команды: _zpool import -d zpoolexport/ otus_
+    Командами zfs определить настройки:
+    ```
+    [root@zfs vagrant]# zfs get available otus
+    NAME  PROPERTY   VALUE  SOURCE
+    otus  available  350M   -
+    [root@zfs vagrant]# zfs get readonly otus
+    NAME  PROPERTY  VALUE   SOURCE
+    otus  readonly  off     default
+    [root@zfs vagrant]# zfs get recordsize otus
+    NAME  PROPERTY    VALUE    SOURCE
+    otus  recordsize  128K     local
+    [root@zfs vagrant]# zfs get compression otus
+    NAME  PROPERTY     VALUE     SOURCE
+    otus  compression  zle       local
+    [root@zfs vagrant]# zfs get checksum otus
+    NAME  PROPERTY  VALUE      SOURCE
+    otus  checksum  sha256     local
+
+    ```
+* Првели работу со снапшотом, нашли сообщения от преподавателя:
+    Это ссылка на_https://github.com/sindresorhus/awesome_

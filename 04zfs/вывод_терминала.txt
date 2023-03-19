@@ -1,0 +1,463 @@
+[root@zfs ~]# lsblk 
+NAME                    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda                       8:0    0   40G  0 disk 
+├─sda1                    8:1    0    1M  0 part 
+├─sda2                    8:2    0    1G  0 part /boot
+└─sda3                    8:3    0   39G  0 part 
+  ├─VolGroup00-LogVol00 253:0    0 37,5G  0 lvm  /
+  └─VolGroup00-LogVol01 253:1    0  1,5G  0 lvm  [SWAP]
+sdb                       8:16   0  512M  0 disk 
+├─sdb1                    8:17   0  502M  0 part 
+└─sdb9                    8:25   0    8M  0 part 
+sdc                       8:32   0  512M  0 disk 
+├─sdc1                    8:33   0  502M  0 part 
+└─sdc9                    8:41   0    8M  0 part 
+sdd                       8:48   0  512M  0 disk 
+├─sdd1                    8:49   0  502M  0 part 
+└─sdd9                    8:57   0    8M  0 part 
+sde                       8:64   0  512M  0 disk 
+├─sde1                    8:65   0  502M  0 part 
+└─sde9                    8:73   0    8M  0 part 
+sdf                       8:80   0  512M  0 disk 
+├─sdf1                    8:81   0  502M  0 part 
+└─sdf9                    8:89   0    8M  0 part 
+sdg                       8:96   0  512M  0 disk 
+├─sdg1                    8:97   0  502M  0 part 
+└─sdg9                    8:105  0    8M  0 part 
+sdh                       8:112  0  512M  0 disk 
+├─sdh1                    8:113  0  502M  0 part 
+└─sdh9                    8:121  0    8M  0 part 
+sdi                       8:128  0  512M  0 disk 
+├─sdi1                    8:129  0  502M  0 part 
+└─sdi9                    8:137  0    8M  0 part 
+[root@zfs ~]# zpool list
+NAME    SIZE  ALLOC   FREE  CKPOINT  EXPANDSZ   FRAG    CAP  DEDUP    HEALTH  ALTROOT
+otus1   480M  91,5K   480M        -         -     0%     0%  1.00x    ONLINE  -
+otus2   480M   100K   480M        -         -     0%     0%  1.00x    ONLINE  -
+otus3   480M  91,5K   480M        -         -     0%     0%  1.00x    ONLINE  -
+otus4   480M  91,5K   480M        -         -     0%     0%  1.00x    ONLINE  -
+[root@zfs ~]# zfs set compression=lzjb otus1
+[root@zfs ~]# zfs set compression=lz4 otus2
+[root@zfs ~]# zfs set compression=gzip-9 otus3
+[root@zfs ~]# zfs set compression=zle otus4
+[root@zfs ~]# zfs get all | grep compression
+otus1  compression           lzjb                       local
+otus2  compression           lz4                        local
+otus3  compression           gzip-9                     local
+otus4  compression           zle                        local
+[root@zfs ~]# for i in {1..4}; do wget -P /otus$i https://gutenberg.org/cache/epub/2600/pg2600.converter.log; done
+--2023-03-19 16:11:40--  https://gutenberg.org/cache/epub/2600/pg2600.converter.log
+Resolving gutenberg.org (gutenberg.org)... 152.19.134.47, 2610:28:3090:3000:0:bad:cafe:47
+Connecting to gutenberg.org (gutenberg.org)|152.19.134.47|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 40912739 (39M) [text/plain]
+Saving to: ‘/otus1/pg2600.converter.log’
+
+ 6% [=====>                                                                                               ] 2 705 007    345KB/s  eta 2m 42s ^C
+[root@zfs ~]# cd ..
+[root@zfs /]# cd ..
+[root@zfs /]# ls -lh
+total 18K
+lrwxrwxrwx.   1 root    root       7 май 12  2018 bin -> usr/bin
+dr-xr-xr-x.   5 root    root    4,0K мар 19 15:48 boot
+drwxr-xr-x.  19 root    root    3,7K мар 19 16:09 dev
+drwxr-xr-x.  79 root    root    8,0K мар 19 15:47 etc
+drwxr-xr-x.   3 root    root      21 май 12  2018 home
+lrwxrwxrwx.   1 root    root       7 май 12  2018 lib -> usr/lib
+lrwxrwxrwx.   1 root    root       9 май 12  2018 lib64 -> usr/lib64
+drwxr-xr-x.   2 root    root       6 апр 11  2018 media
+drwxr-xr-x.   2 root    root       6 апр 11  2018 mnt
+drwxr-xr-x.   3 root    root      39 мар 19 15:22 opt
+drwxr-xr-x.   2 root    root       3 мар 19 16:11 otus1
+drwxr-xr-x.   2 root    root       2 мар 19 16:06 otus2
+drwxr-xr-x.   2 root    root       2 мар 19 16:06 otus3
+drwxr-xr-x.   2 root    root       2 мар 19 16:06 otus4
+dr-xr-xr-x. 410 root    root       0 мар 19 15:47 proc
+dr-xr-x---.   3 root    root     170 мар 19 15:46 root
+drwxr-xr-x.  27 root    root     900 мар 19 16:08 run
+lrwxrwxrwx.   1 root    root       8 май 12  2018 sbin -> usr/sbin
+drwxr-xr-x.   2 root    root       6 апр 11  2018 srv
+dr-xr-xr-x.  13 root    root       0 мар 19 15:47 sys
+drwxrwxrwt.   8 root    root     225 мар 19 15:58 tmp
+drwxr-xr-x.  13 root    root     155 май 12  2018 usr
+drwxrwxr-x.   2 vagrant vagrant  161 мар 19 15:20 vagrant
+drwxr-xr-x.  18 root    root     254 мар 19 15:20 var
+[root@zfs /]# cd otus1
+[root@zfs otus1]# ls -la
+total 449
+drwxr-xr-x.  2 root root       3 мар 19 16:11 .
+dr-xr-xr-x. 22 root root    4096 мар 19 16:09 ..
+-rw-r--r--.  1 root root 2795119 мар 19 16:11 pg2600.converter.log
+[root@zfs otus1]# rm pg2600.converter.log 
+rm: remove regular file ‘pg2600.converter.log’? y
+[root@zfs otus1]# ls -la\
+> ^C
+[root@zfs otus1]# ls -la
+total 5
+drwxr-xr-x.  2 root root    2 мар 19 16:12 .
+dr-xr-xr-x. 22 root root 4096 мар 19 16:09 ..
+[root@zfs otus1]# cd ..
+[root@zfs /]# cd otus2
+[root@zfs otus2]# ls -la
+total 5
+drwxr-xr-x.  2 root root    2 мар 19 16:06 .
+dr-xr-xr-x. 22 root root 4096 мар 19 16:09 ..
+[root@zfs otus2]# cd ..
+[root@zfs /]# for i in {1..4}; do wget -P /otus$i https://gutenberg.org/cache/epub/2600/pg2600.converter.log; done
+--2023-03-19 16:13:27--  https://gutenberg.org/cache/epub/2600/pg2600.converter.log
+Resolving gutenberg.org (gutenberg.org)... 152.19.134.47, 2610:28:3090:3000:0:bad:cafe:47
+Connecting to gutenberg.org (gutenberg.org)|152.19.134.47|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 40912739 (39M) [text/plain]
+Saving to: ‘/otus1/pg2600.converter.log’
+
+100%[====================================================================================================>] 40 912 739  4,87MB/s   in 7,9s   
+
+2023-03-19 16:13:35 (4,94 MB/s) - ‘/otus1/pg2600.converter.log’ saved [40912739/40912739]
+
+--2023-03-19 16:13:35--  https://gutenberg.org/cache/epub/2600/pg2600.converter.log
+Resolving gutenberg.org (gutenberg.org)... 152.19.134.47, 2610:28:3090:3000:0:bad:cafe:47
+Connecting to gutenberg.org (gutenberg.org)|152.19.134.47|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 40912739 (39M) [text/plain]
+Saving to: ‘/otus2/pg2600.converter.log’
+
+100%[====================================================================================================>] 40 912 739  5,48MB/s   in 7,6s   
+
+2023-03-19 16:13:44 (5,15 MB/s) - ‘/otus2/pg2600.converter.log’ saved [40912739/40912739]
+
+--2023-03-19 16:13:44--  https://gutenberg.org/cache/epub/2600/pg2600.converter.log
+Resolving gutenberg.org (gutenberg.org)... 152.19.134.47, 2610:28:3090:3000:0:bad:cafe:47
+Connecting to gutenberg.org (gutenberg.org)|152.19.134.47|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 40912739 (39M) [text/plain]
+Saving to: ‘/otus3/pg2600.converter.log’
+
+100%[====================================================================================================>] 40 912 739  3,24MB/s   in 12s    
+
+2023-03-19 16:13:57 (3,17 MB/s) - ‘/otus3/pg2600.converter.log’ saved [40912739/40912739]
+
+--2023-03-19 16:13:57--  https://gutenberg.org/cache/epub/2600/pg2600.converter.log
+Resolving gutenberg.org (gutenberg.org)... 152.19.134.47, 2610:28:3090:3000:0:bad:cafe:47
+Connecting to gutenberg.org (gutenberg.org)|152.19.134.47|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 40912739 (39M) [text/plain]
+Saving to: ‘/otus4/pg2600.converter.log’
+
+100%[====================================================================================================>] 40 912 739  3,52MB/s   in 9,3s   
+
+2023-03-19 16:14:07 (4,21 MB/s) - ‘/otus4/pg2600.converter.log’ saved [40912739/40912739]
+
+[root@zfs /]# zfs list
+NAME    USED  AVAIL     REFER  MOUNTPOINT
+otus1  21,6M   330M     21,6M  /otus1
+otus2  17,7M   334M     17,6M  /otus2
+otus3  10,8M   341M     10,7M  /otus3
+otus4  39,1M   313M     39,1M  /otus4
+[root@zfs /]# zfs get all | gep compressratio | grep -v refotus1
+-bash: gep: command not found
+[root@zfs /]# zfs get all | grep compressratio | grep -v refotus1
+otus1  compressratio         1.81x                      -
+otus1  refcompressratio      1.81x                      -
+otus2  compressratio         2.22x                      -
+otus2  refcompressratio      2.22x                      -
+otus3  compressratio         3.65x                      -
+otus3  refcompressratio      3.66x                      -
+otus4  compressratio         1.00x                      -
+otus4  refcompressratio      1.00x                      -
+[root@zfs /]# cd home/
+[root@zfs home]# ls -la
+total 4
+drwxr-xr-x.  3 root    root      21 май 12  2018 .
+dr-xr-xr-x. 22 root    root    4096 мар 19 16:09 ..
+drwx------.  3 vagrant vagrant   95 мар 19 15:46 vagrant
+[root@zfs home]# cd vagrant/
+[root@zfs vagrant]# ls -la
+total 16
+drwx------. 3 vagrant vagrant  95 мар 19 15:46 .
+drwxr-xr-x. 3 root    root     21 май 12  2018 ..
+-rw-------. 1 vagrant vagrant   8 мар 19 15:46 .bash_history
+-rw-r--r--. 1 vagrant vagrant  18 апр 11  2018 .bash_logout
+-rw-r--r--. 1 vagrant vagrant 193 апр 11  2018 .bash_profile
+-rw-r--r--. 1 vagrant vagrant 231 апр 11  2018 .bashrc
+drwx------. 2 vagrant vagrant  29 мар 19 15:20 .ssh
+[root@zfs vagrant]# wget -O archive.tar.gz --no-check-certificate 'https://drive.google.com/u/0/uc?id=1KRBNW33QWqbvbVHa3hLJivOAt60yukkg&export=download'
+--2023-03-19 16:22:42--  https://drive.google.com/u/0/uc?id=1KRBNW33QWqbvbVHa3hLJivOAt60yukkg&export=download
+Resolving drive.google.com (drive.google.com)... 74.125.205.194, 2a00:1450:4010:c02::c2
+Connecting to drive.google.com (drive.google.com)|74.125.205.194|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://drive.google.com/uc?id=1KRBNW33QWqbvbVHa3hLJivOAt60yukkg&export=download [following]
+--2023-03-19 16:22:43--  https://drive.google.com/uc?id=1KRBNW33QWqbvbVHa3hLJivOAt60yukkg&export=download
+Reusing existing connection to drive.google.com:443.
+HTTP request sent, awaiting response... 303 See Other
+Location: https://doc-0c-bo-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/4aa09uviafsg09j3anf5m0skifpp0bv3/1679242950000/16189157874053420687/*/1KRBNW33QWqbvbVHa3hLJivOAt60yukkg?e=download&uuid=d4eaa779-d02a-4e07-a754-4a840836cc84 [following]
+Warning: wildcards not supported in HTTP.
+--2023-03-19 16:22:47--  https://doc-0c-bo-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/4aa09uviafsg09j3anf5m0skifpp0bv3/1679242950000/16189157874053420687/*/1KRBNW33QWqbvbVHa3hLJivOAt60yukkg?e=download&uuid=d4eaa779-d02a-4e07-a754-4a840836cc84
+Resolving doc-0c-bo-docs.googleusercontent.com (doc-0c-bo-docs.googleusercontent.com)... 173.194.220.132, 2a00:1450:4010:c09::84
+Connecting to doc-0c-bo-docs.googleusercontent.com (doc-0c-bo-docs.googleusercontent.com)|173.194.220.132|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7275140 (6,9M) [application/x-gzip]
+Saving to: ‘archive.tar.gz’
+
+100%[====================================================================================================>] 7 275 140   10,6MB/s   in 0,7s   
+
+2023-03-19 16:22:49 (10,6 MB/s) - ‘archive.tar.gz’ saved [7275140/7275140]
+
+[root@zfs vagrant]# ls -lh
+total 7,0M
+-rw-r--r--. 1 root root 7,0M мар 19 16:22 archive.tar.gz
+[root@zfs vagrant]# tar -xzvf archive.tar.gz
+zpoolexport/
+zpoolexport/filea
+zpoolexport/fileb
+[root@zfs vagrant]# zpool import -d zpoolexport/
+   pool: otus
+     id: 6554193320433390805
+  state: ONLINE
+ action: The pool can be imported using its name or numeric identifier.
+ config:
+
+	otus                                 ONLINE
+	  mirror-0                           ONLINE
+	    /home/vagrant/zpoolexport/filea  ONLINE
+	    /home/vagrant/zpoolexport/fileb  ONLINE
+[root@zfs vagrant]# zpool import -d zpoolexport/ otus
+[root@zfs vagrant]# zpool status
+  pool: otus
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME                                 STATE     READ WRITE CKSUM
+	otus                                 ONLINE       0     0     0
+	  mirror-0                           ONLINE       0     0     0
+	    /home/vagrant/zpoolexport/filea  ONLINE       0     0     0
+	    /home/vagrant/zpoolexport/fileb  ONLINE       0     0     0
+
+errors: No known data errors
+
+  pool: otus1
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	otus1       ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdb     ONLINE       0     0     0
+	    sdc     ONLINE       0     0     0
+
+errors: No known data errors
+
+  pool: otus2
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	otus2       ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdd     ONLINE       0     0     0
+	    sde     ONLINE       0     0     0
+
+errors: No known data errors
+
+  pool: otus3
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	otus3       ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdf     ONLINE       0     0     0
+	    sdg     ONLINE       0     0     0
+
+errors: No known data errors
+
+  pool: otus4
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	otus4       ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdh     ONLINE       0     0     0
+	    sdi     ONLINE       0     0     0
+
+errors: No known data errors
+[root@zfs vagrant]# zpool get all otus
+NAME  PROPERTY                       VALUE                          SOURCE
+otus  size                           480M                           -
+otus  capacity                       0%                             -
+otus  altroot                        -                              default
+otus  health                         ONLINE                         -
+otus  guid                           6554193320433390805            -
+otus  version                        -                              default
+otus  bootfs                         -                              default
+otus  delegation                     on                             default
+otus  autoreplace                    off                            default
+otus  cachefile                      -                              default
+otus  failmode                       wait                           default
+otus  listsnapshots                  off                            default
+otus  autoexpand                     off                            default
+otus  dedupditto                     0                              default
+otus  dedupratio                     1.00x                          -
+otus  free                           478M                           -
+otus  allocated                      2,09M                          -
+otus  readonly                       off                            -
+otus  ashift                         0                              default
+otus  comment                        -                              default
+otus  expandsize                     -                              -
+otus  freeing                        0                              -
+otus  fragmentation                  0%                             -
+otus  leaked                         0                              -
+otus  multihost                      off                            default
+otus  checkpoint                     -                              -
+otus  load_guid                      5024956877811905029            -
+otus  autotrim                       off                            default
+otus  feature@async_destroy          enabled                        local
+otus  feature@empty_bpobj            active                         local
+otus  feature@lz4_compress           active                         local
+otus  feature@multi_vdev_crash_dump  enabled                        local
+otus  feature@spacemap_histogram     active                         local
+otus  feature@enabled_txg            active                         local
+otus  feature@hole_birth             active                         local
+otus  feature@extensible_dataset     active                         local
+otus  feature@embedded_data          active                         local
+otus  feature@bookmarks              enabled                        local
+otus  feature@filesystem_limits      enabled                        local
+otus  feature@large_blocks           enabled                        local
+otus  feature@large_dnode            enabled                        local
+otus  feature@sha512                 enabled                        local
+otus  feature@skein                  enabled                        local
+otus  feature@edonr                  enabled                        local
+otus  feature@userobj_accounting     active                         local
+otus  feature@encryption             enabled                        local
+otus  feature@project_quota          active                         local
+otus  feature@device_removal         enabled                        local
+otus  feature@obsolete_counts        enabled                        local
+otus  feature@zpool_checkpoint       enabled                        local
+otus  feature@spacemap_v2            active                         local
+otus  feature@allocation_classes     enabled                        local
+otus  feature@resilver_defer         enabled                        local
+otus  feature@bookmark_v2            enabled                        local
+[root@zfs vagrant]# zfs get available otus
+NAME  PROPERTY   VALUE  SOURCE
+otus  available  350M   -
+[root@zfs vagrant]# zfs get readonly otus
+NAME  PROPERTY  VALUE   SOURCE
+otus  readonly  off     default
+[root@zfs vagrant]# zfs get recordsize otus
+NAME  PROPERTY    VALUE    SOURCE
+otus  recordsize  128K     local
+[root@zfs vagrant]# zfs get compression otus
+NAME  PROPERTY     VALUE     SOURCE
+otus  compression  zle       local
+[root@zfs vagrant]# zfs get checksum otus
+NAME  PROPERTY  VALUE      SOURCE
+otus  checksum  sha256     local
+[root@zfs vagrant]# wget -O otus_task2.file --no-check-certificate ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download’
+[1] 24991
+[root@zfs vagrant]# ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG: Scheme missing.
+^C
+[1]+  Exit 1                  wget -O otus_task2.file --no-check-certificate ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG
+[root@zfs vagrant]# wget -O otus_task2.file --no-check-certificate ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download’
+[1] 24998
+[root@zfs vagrant]# ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG: Scheme missing.
+^C
+[1]+  Exit 1                  wget -O otus_task2.file --no-check-certificate ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG
+[root@zfs vagrant]# wget -O otus_task2.file --no-check-certificate ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG’
+‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG’: Scheme missing.
+[root@zfs vagrant]# wget -O otus_task2.file --no-check-certificate ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download’
+[1] 25000
+[root@zfs vagrant]# ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG: Scheme missing.
+^C
+[1]+  Exit 1                  wget -O otus_task2.file --no-check-certificate ‘https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG
+[root@zfs vagrant]# ды -дф
+-bash: ды: command not found
+[root@zfs vagrant]# ls -la
+total 7124
+drwx------. 4 vagrant vagrant     159 мар 19 16:37 .
+drwxr-xr-x. 3 root    root         21 май 12  2018 ..
+-rw-r--r--. 1 root    root    7275140 мар 19 16:22 archive.tar.gz
+-rw-------. 1 vagrant vagrant       8 мар 19 15:46 .bash_history
+-rw-r--r--. 1 vagrant vagrant      18 апр 11  2018 .bash_logout
+-rw-r--r--. 1 vagrant vagrant     193 апр 11  2018 .bash_profile
+-rw-r--r--. 1 vagrant vagrant     231 апр 11  2018 .bashrc
+-rw-r--r--. 1 root    root          0 мар 19 16:40 otus_task2.file
+drwx------. 2 vagrant vagrant      29 мар 19 15:20 .ssh
+drwxr-xr-x. 2 root    root         32 май 15  2020 zpoolexport
+[root@zfs vagrant]# rm otus_task2.file 
+rm: remove regular empty file ‘otus_task2.file’? y
+[root@zfs vagrant]# wget -O otus_task2.file --no-check-certificate `https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download`
+-bash: https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG: No such file or directory
+wget: missing URL
+Usage: wget [OPTION]... [URL]...
+
+Try `wget --help' for more options.
+[root@zfs vagrant]# wget -O otus_task2.file --no-check-certificate 'https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download'
+--2023-03-19 16:41:49--  https://drive.google.com/u/0/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download
+Resolving drive.google.com (drive.google.com)... 108.177.14.194, 2a00:1450:4010:c08::c2
+Connecting to drive.google.com (drive.google.com)|108.177.14.194|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://drive.google.com/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download [following]
+--2023-03-19 16:41:49--  https://drive.google.com/uc?id=1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG&export=download
+Reusing existing connection to drive.google.com:443.
+HTTP request sent, awaiting response... 303 See Other
+Location: https://doc-00-bo-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/sh43tl28utmhrt0rjhj84h4v3ub7klpv/1679244075000/16189157874053420687/*/1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG?e=download&uuid=847756ef-1325-4609-92f1-36fc9118ca2c [following]
+Warning: wildcards not supported in HTTP.
+--2023-03-19 16:41:50--  https://doc-00-bo-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/sh43tl28utmhrt0rjhj84h4v3ub7klpv/1679244075000/16189157874053420687/*/1gH8gCL9y7Nd5Ti3IRmplZPF1XjzxeRAG?e=download&uuid=847756ef-1325-4609-92f1-36fc9118ca2c
+Resolving doc-00-bo-docs.googleusercontent.com (doc-00-bo-docs.googleusercontent.com)... 74.125.205.132, 2a00:1450:4010:c08::84
+Connecting to doc-00-bo-docs.googleusercontent.com (doc-00-bo-docs.googleusercontent.com)|74.125.205.132|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 5432736 (5,2M) [application/octet-stream]
+Saving to: ‘otus_task2.file’
+
+100%[====================================================================================================>] 5 432 736   10,5MB/s   in 0,5s   
+
+2023-03-19 16:41:51 (10,5 MB/s) - ‘otus_task2.file’ saved [5432736/5432736]
+
+[root@zfs vagrant]# ls -la
+total 12432
+drwx------. 4 vagrant vagrant     159 мар 19 16:41 .
+drwxr-xr-x. 3 root    root         21 май 12  2018 ..
+-rw-r--r--. 1 root    root    7275140 мар 19 16:22 archive.tar.gz
+-rw-------. 1 vagrant vagrant       8 мар 19 15:46 .bash_history
+-rw-r--r--. 1 vagrant vagrant      18 апр 11  2018 .bash_logout
+-rw-r--r--. 1 vagrant vagrant     193 апр 11  2018 .bash_profile
+-rw-r--r--. 1 vagrant vagrant     231 апр 11  2018 .bashrc
+-rw-r--r--. 1 root    root    5432736 мар 19 16:41 otus_task2.file
+drwx------. 2 vagrant vagrant      29 мар 19 15:20 .ssh
+drwxr-xr-x. 2 root    root         32 май 15  2020 zpoolexport
+[root@zfs vagrant]# zfs receive otus/test@today < otus_task2.file
+[root@zfs vagrant]# cd /otus/test/
+[root@zfs test]# ls -la
+total 2592
+drwxr-xr-x. 3 root    root         11 май 15  2020 .
+drwxr-xr-x. 4 root    root          4 мар 19 16:42 ..
+-rw-r--r--. 1 root    root          0 май 15  2020 10M.file
+-rw-r--r--. 1 root    root     727040 май 15  2020 cinderella.tar
+-rw-r--r--. 1 root    root         65 май 15  2020 for_examaple.txt
+-rw-r--r--. 1 root    root          0 май 15  2020 homework4.txt
+-rw-r--r--. 1 root    root     309987 май 15  2020 Limbo.txt
+-rw-r--r--. 1 root    root     509836 май 15  2020 Moby_Dick.txt
+drwxr-xr-x. 3 vagrant vagrant       4 дек 18  2017 task1
+-rw-r--r--. 1 root    root    1209374 май  6  2016 War_and_Peace.txt
+-rw-r--r--. 1 root    root     398635 май 15  2020 world.sql
+[root@zfs test]# ls -lh
+total 2,6M
+-rw-r--r--. 1 root    root       0 май 15  2020 10M.file
+-rw-r--r--. 1 root    root    710K май 15  2020 cinderella.tar
+-rw-r--r--. 1 root    root      65 май 15  2020 for_examaple.txt
+-rw-r--r--. 1 root    root       0 май 15  2020 homework4.txt
+-rw-r--r--. 1 root    root    303K май 15  2020 Limbo.txt
+-rw-r--r--. 1 root    root    498K май 15  2020 Moby_Dick.txt
+drwxr-xr-x. 3 vagrant vagrant    4 дек 18  2017 task1
+-rw-r--r--. 1 root    root    1,2M май  6  2016 War_and_Peace.txt
+-rw-r--r--. 1 root    root    390K май 15  2020 world.sql
+[root@zfs test]# find /otus/test -name "secret_message"
+/otus/test/task1/file_mess/secret_message
+[root@zfs test]# cat /otus/test/task1/file_mess/secret_message
+https://github.com/sindresorhus/awesome
