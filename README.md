@@ -73,11 +73,11 @@ end
 Репозиторий [ZFS](https://github.com/AlexeyWu/test_vm/tree/main/04zfs)
 Вывод терминала в [текстовом файле](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4_%D1%82%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB%D0%B0.txt)
 
-Устанавшливаем [Vagrantfile](https://github.com/AlexeyWu/test_vm/tree/main/04zfs/Vagrantfile) vb _centos\7 2004.1_
-С использованием скрипта [test.sh](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/test.sh)
+    Устанавшливаем [Vagrantfile](https://github.com/AlexeyWu/test_vm/tree/main/04zfs/Vagrantfile) vb _centos\7 2004.1_
+    С использованием скрипта [test.sh](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/test.sh)
 
 * Определяем алгоритм с наилучшим сжатием
-Исходя из тестов видно что наилучший алгоритм компресси при одинаковом наборе данных у нас _otus3_:
+    Исходя из тестов видно что наилучший алгоритм компресси при одинаковом наборе данных у нас _otus3_:
 
  ```
 zfs list
@@ -95,10 +95,10 @@ otus4  compressratio         1.00x                      -
 
  ```
 * Определим настройки pool
-    Скачали и разархивировали архив в домашний каталог
-    Проверили с помощью команды _zpool import -d zpoolexport/_ возможно ли импортировать каталог в _pool_
-    Импортировали данныый пул в нашу ОС с помощью команды: _zpool import -d zpoolexport/ otus_
-    Командами zfs определить настройки:
+    - Скачали и разархивировали архив в домашний каталог
+    - Проверили с помощью команды _zpool import -d zpoolexport/_ возможно ли импортировать каталог в _pool_
+    - Импортировали данныый пул в нашу ОС с помощью команды: _zpool import -d zpoolexport/ otus_
+    - Командами zfs определить настройки:
     ```
     [root@zfs vagrant]# zfs get available otus
     NAME  PROPERTY   VALUE  SOURCE
@@ -118,6 +118,6 @@ otus4  compressratio         1.00x                      -
 
     ```
 * Првели работу со снапшотом, нашли [сообщения от преподавателя](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/Screenshot%20from%202023-03-19%2019-54-15.png):
-    Это ссылка на_https://github.com/sindresorhus/awesome_
+    - Это ссылка на_https://github.com/sindresorhus/awesome_
 
 <h2 align="center">#5 <a href="https://github.com/AlexeyWu/test_vm/tree/main/05" target="_blank">Пока нет</a></h2>
