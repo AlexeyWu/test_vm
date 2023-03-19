@@ -73,8 +73,9 @@ end
 Репозиторий [ZFS](https://github.com/AlexeyWu/test_vm/tree/main/04zfs)
 Вывод терминала в [текстовом файле](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4_%D1%82%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB%D0%B0.txt)
 
-    Устанавшливаем [Vagrantfile](https://github.com/AlexeyWu/test_vm/tree/main/04zfs/Vagrantfile) vb _centos\7 2004.1_
-    С использованием скрипта [test.sh](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/test.sh)
+Устанавшливаем [Vagrantfile](https://github.com/AlexeyWu/test_vm/tree/main/04zfs/Vagrantfile) vb _centos\7 2004.1_
+
+С использованием скрипта [test.sh](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/test.sh)
 
 * Определяем алгоритм с наилучшим сжатием
     Исходя из тестов видно что наилучший алгоритм компресси при одинаковом наборе данных у нас _otus3_:
