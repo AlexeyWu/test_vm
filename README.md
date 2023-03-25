@@ -127,12 +127,12 @@ otus4  compressratio         1.00x                      -
 
 С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/Vagrantfile) и двух скриптов для сервера [nfss.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfss.sh) и для клиента [nfsc.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfsc.sh) запустили наш стенд на имеющемся образе (centos/7 2004.01), состоящий из Клиента и Сервера.
 
-На сервере установили и запустили NFS, включили Firewall и добавили в него настройки для доступа до NFS.\
+На сервере с помощью скрипта [nfss.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfss.sh) установили и запустили NFS, включили Firewall и добавили в него настройки для доступа до NFS.\
 Так же создали директорию _/srv/share/upload_ с нужными правами для создания в ней файла _server\_file_ и расшариваня по сети\
 Создали файл _server\_file_ скриптом при поднятии VM в шаре для его проверки на клиенте после монтирования шары 
 
-
-На клиенте так же включили _firewall_ , добавили в _fstab_ строчку для автомонтирования шары с сервера в _/mnt/_\
+На клиенте с помощью скрипта [nfsc.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfsc.sh):\
+так же включили _firewall_ , добавили в _fstab_ строчку для автомонтирования шары с сервера в _/mnt/_\
 Так же создали файл _client\_file_ скриптом при поднятии VM в шаре для его проверки на сервере после монтирования шары
 
 В итоге у нас в шаре в папке _upload_ должно быть видно с сервера и клиента 2 файла _client_file, server_file_.
