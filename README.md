@@ -119,6 +119,21 @@ otus4  compressratio         1.00x                      -
 
     ```
 * Првели работу со снапшотом, нашли [сообщения от преподавателя](https://github.com/AlexeyWu/test_vm/blob/main/04zfs/Screenshot%20from%202023-03-19%2019-54-15.png):
-    - Это ссылка на_https://github.com/sindresorhus/awesome_
+    - Это ссылка на _https://github.com/sindresorhus/awesome_
 
-<h2 align="center">#5 <a href="https://github.com/AlexeyWu/test_vm/tree/main/05" target="_blank">Пока нет</a></h2>
+<h2 align="center">#5 <a href="https://github.com/AlexeyWu/test_vm/tree/main/05nfs" target="_blank">Стенд для NFS</a></h2>
+
+Репозиторий [ZFS](https://github.com/AlexeyWu/test_vm/tree/main/05nfs)
+
+С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/Vagrantfile) и двух скриптов для сервера [nfss.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfss.sh) и для клиента [nfsc.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfsc.sh) запустили наш стенд на имеющемся образе (centos/7 2004.01), состоящий из Клиента и Сервера.
+
+На сервере установили и запустили NFS, включили Firewall и добавили в него настройки для доступа до NFS.
+Так же создали директорию _/srv/share/upload_ с нужными правами для расшариваня по сети
+Создали файл _server\_file_ скриптом при поднятии VM в шаре для его проверки на клиенте после монтирования шары 
+
+На клиенте так же включили _firewall_ , добавили в _fstab_ строчку для автомонтирования шары с сервера в _/mnt/_
+Так же создали файл _client\_file_ скриптом при поднятии VM в шаре для его проверки на сервере после монтирования шары
+
+В итоге у нас в шаре должно быть видно с сервера и клиента 2 файла _client_file, server_file_.
+
+
