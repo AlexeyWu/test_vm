@@ -123,7 +123,7 @@ otus4  compressratio         1.00x                      -
 
 <h2 align="center">#5 <a href="https://github.com/AlexeyWu/test_vm/tree/main/05nfs" target="_blank">Стенд для NFS</a></h2>
 
-Репозиторий [ZFS](https://github.com/AlexeyWu/test_vm/tree/main/05nfs)
+Репозиторий [NFS](https://github.com/AlexeyWu/test_vm/tree/main/05nfs)
 
 С помощью [_Vagranfile_](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/Vagrantfile) и двух скриптов для сервера [nfss.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfss.sh) и для клиента [nfsc.sh](https://github.com/AlexeyWu/test_vm/blob/main/05nfs/nfsc.sh) запустили наш стенд на имеющемся образе (centos/7 2004.01), состоящий из Клиента и Сервера.
 
