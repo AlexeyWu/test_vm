@@ -1,7 +1,7 @@
 
 В репозитори находятся файл вирт. машины [Vagrantfile](Vagrantfile). 
-Файлы [logvgs.txt](logvgs.txt), работа с vgs. 
-Файлы [mod-init.txt](mod-init.txt), работа с модулем в initrd. 
+Файл [logvgs.txt](logvgs.txt), работа с vgs. 
+Файл [mod-init.txt](mod-init.txt), работа с модулем в initrd. 
 
 
 ##  Попасть в систему без пароля несколькими способами:
