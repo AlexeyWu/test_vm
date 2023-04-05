@@ -7,20 +7,20 @@ echo =============================
 sudo -i
 
 #добавляем данные в файл
-cat <<'EOF' >/etc/sysconfig/watchlog
+cat << 'EOF' >/etc/sysconfig/watchlog
 WORD="ALERT"
 LOG=/var/log/watchlog.log
 EOF
 
 #добавляем данные в файл
-cat <<'EOF' >/var/log/watchlog.log
+cat << 'EOF' >/var/log/watchlog.log
 Add other string to file
 4353 
 ALERT = nuzhnoe nam slovo
 EOF
 
 #Создадим скрипт vi /opt/watchlog.sh
-cat <<'EOF' >/opt/watchlog.sh
+cat << 'EOF' >/opt/watchlog.sh
 #!/bin/bash
 WORD=$1
 LOG=$2
@@ -37,9 +37,10 @@ EOF
 sudo chmod +x /opt/watchlog.sh
 
 #Создадим юнит для сервиса watchlog
-cat <<'EOF' >/etc/systemd/system/watchlog.service
+cat << 'EOF' >/etc/systemd/system/watchlog.service
 [Unit]
 Description=My watchlog service
+
 [Service]
 Type=oneshot
 EnvironmentFile=/etc/sysconfig/watchlog
@@ -47,9 +48,10 @@ ExecStart=/opt/watchlog.sh $WORD $LOG
 EOF
 
 #Создадим юнит для таймера
-cat <<'EOF' >/etc/systemd/system/watchlog.timer
+cat << 'EOF' >/etc/systemd/system/watchlog.timer
 [Unit]
 Description=Run watchlog script every 30 second
+
 [Timer]
 # Run every 30 second
 OnUnitActiveSec=30
@@ -63,7 +65,7 @@ systemctl start watchlog.timer
 systemctl start watchlog.service	
 
 #Убедимся в результате
-echo timeout 1m tail -f /var/log/messages
+timeout 1m tail -f /var/log/messages
 
 
 echo ============================
