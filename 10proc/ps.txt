@@ -1,0 +1,13 @@
+ps.sh - Скрипт, простой аналог ps au. Данные извлекаются из псевдофайловой системы proc.
+
+вывод консоли
+
+PID                           USER             COMM                          STAT      RSS       
+1                             root         /sbin/initsplash                   S        9648      
+2                             root          [kthreadd]                        S                   
+3                             root           [rcu_gp]                         I                   
+4                             root         [rcu_par_gp]                       I                   
+5                             root         [slub_flushwq]                     I                   
+6                             root            [netns]                         I                   
+8                             root      [kworker/0:0H-events_highpri]         I                   
+...... и так далее

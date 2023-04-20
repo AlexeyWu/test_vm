@@ -1,0 +1,25 @@
+lsof.sh - Простой аналог команды lsof. 
+Программа показывает PID, USER, открытые файлы, и каким процессом они открыты. 
+Данные извлекаются из псевдофайловой системы proc.
+
+
+
+ID        USER                           NAME                                            COMM
+1          root                 /usr/lib/systemd/systemd                                systemd
+1          root                 /usr/lib/systemd/systemd               			systemd
+1          root                 /usr/lib/systemd/systemd             			systemd
+1          root                 /usr/lib/systemd/systemd               			systemd
+1          root                 /usr/lib/systemd/systemd               			systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.10.4         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.10.4         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.10.4         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.10.4         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.10.4         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libcrypto.so.3         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libcrypto.so.3         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libcrypto.so.3         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libcrypto.so.3         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libcrypto.so.3         	systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libgpg-error.so.0.32.1        systemd
+1          root                 /usr/lib/x86_64-linux-gnu/libgpg-error.so.0.32.1        systemd
+
