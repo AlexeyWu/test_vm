@@ -1,0 +1,1 @@
+95.163.255.46 - - [19/Apr/2023:18:39:05 +0300] "GET /sitemap-pt-post-2017-01.xml HTTP/1.1" 200 620 "-" "Mozilla/5.0 (compatible; Linux x86_64; Mail.RU_Bot/2.0; +http://go.mail.ru/help/robots)"rt=1.715 uct="0.000" uht="0.172" urt="0.172"
