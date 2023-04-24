@@ -11,3 +11,4 @@
 
 - [скрипт](nginx-stat.sh)
 - [пример crontab](crontab)
+- [последняя обработанная строчка после выполнения скрипта](remembered_last_line.txt)
