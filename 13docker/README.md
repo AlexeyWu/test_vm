@@ -1,5 +1,6 @@
 # Docker
 
+- _Vagranfile_ - файл конфигурации для создания VM для тестов с docker
 - _Dockerfile_ - Файл конфигурации создаваемого образа.
 - _default.conf_ - файл с настройками NGINX
 - [_1_](https://github.com/AlexeyWu/test_vm/tree/main/13docker/1) - папка со статической страницей отвечающей по порту 80 (файл index.html)
