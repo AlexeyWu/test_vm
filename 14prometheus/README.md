@@ -1,7 +1,7 @@
 # Docker
 
 - _Vagranfile_ - файл конфигурации для создания VM для тестов с Prometheus+Grafana+AlertManager
-- - _DashboardGrafanaScreenshot from 2023-05-22 23-00-54.png_ - файл со скриншетом Dashboard Grafana
+- _DashboardGrafanaScreenshot from 2023-05-22 23-00-54.png_ - файл со скриншетом Dashboard Grafana
 
 
 _CONFIGURATION PROMETHEUS_
