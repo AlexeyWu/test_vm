@@ -5,7 +5,7 @@
 
 
 _CONFIGURATION PROMETHEUS_
-
+```
 global:
   scrape_interval: 10s
   scrape_timeout: 10s
@@ -45,3 +45,4 @@ scrape_configs:
   static_configs:
   - targets:
     - localhost:9100
+ ```
