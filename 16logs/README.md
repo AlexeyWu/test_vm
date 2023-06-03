@@ -379,3 +379,5 @@ node=web type=PROCTITLE msg=audit(1685735578.184:1714): proctitle=63686D6F64002D
 
 ```
 
+## Так же это все реализовано с помощью Vagranfile из которого запускается ansible-playbook
+
