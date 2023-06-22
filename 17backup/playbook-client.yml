@@ -1,0 +1,21 @@
+- hosts: client
+  vars:
+    borg_client_backup_list:
+      - name: client_repo
+        repo: borg@server:client_repo
+        paths:
+          - /etc
+        cron:
+          minute: '*/5'
+          hour: '*'
+          day: '*'
+          month: '*'
+          weekday: '*'
+        ssh:
+          key_path: /vagrant/keys/id_rsa_client_a
+        prune:
+          keep_daily: 90
+          keep_monthly: 12
+  roles:
+    - role: borg-client
+      become: true

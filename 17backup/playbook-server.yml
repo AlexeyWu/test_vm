@@ -1,0 +1,11 @@
+- hosts: server
+  vars:
+    borg_server_clients:
+      - name: client
+        key: "{{ lookup('file', playbook_dir + '/keys/id_client_a.pub') }}"
+      # - name: client_b
+      #   key: "{{ lookup('file', playbook_dir + '/keys/id_client_b.pub') }}"
+        append_only: false
+  roles:
+    - role: borg-server
+      become: true

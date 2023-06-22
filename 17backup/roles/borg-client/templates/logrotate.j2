@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+# rotate borg log
+{{ borg_client_log_path }} {
+    daily
+    create 0644 root root
+    dateext
+    size 200K
+    rotate 5
+}
