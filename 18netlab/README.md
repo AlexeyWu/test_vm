@@ -105,7 +105,8 @@ Vagrantfile с начальным построением сети
 #### Как запустить:
 
 ```
-git clone https://github.com/AlexeyWu/test_vm.git && cd 18netlab && vagrant up
+Скачиваем [Vagranfile](https://github.com/AlexeyWu/test_vm/blob/main/18netlab/Vagrantfile)
+Запускаем - vagrant up
 ```
 
 
