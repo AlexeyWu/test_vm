@@ -104,9 +104,11 @@ Vagrantfile с начальным построением сети
 
 #### Как запустить:
 
-```
+
 Скачиваем [Vagranfile](https://github.com/AlexeyWu/test_vm/blob/main/18netlab/Vagrantfile)
-Запускаем - vagrant up
+Запускаем:
+``` 
+vagrant up
 ```
 
 
