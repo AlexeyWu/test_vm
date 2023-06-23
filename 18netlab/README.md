@@ -75,7 +75,7 @@ Vagrantfile с начальным построением сети
 ```
 
 ```
-![image](~/pict/arch.png)
+![image](https://github.com/AlexeyWu/test_vm/blob/main/18netlab/pict/tabl.png)
 **Сеть office1**
 - 192.168.2.0/26 - dev 
 Network:   192.168.2.0/26
