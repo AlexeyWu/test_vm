@@ -22,7 +22,7 @@ testClient2 <-> testServer2
 
 Итоговая топология
 
-![Image 1](pict1.jpg)
+![Image](pict1.png)
 
 Разворачиваем настроенную топологию через ansible+vagrant+jinja2, проверяем настройки и доступность:
 
