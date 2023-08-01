@@ -9,7 +9,7 @@
 - testServer1- 10.10.10.1 
 - testServer2- 10.10.10.1
 
-Равести вланами:
+Разести VLANами:
 testClient1 <-> testServer1
 testClient2 <-> testServer2
 
