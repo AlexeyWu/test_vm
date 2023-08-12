@@ -1,18 +1,3 @@
-MAster
-t!XejCyao2L+
-
-Slave
-2lc7h#AgIMST
-
-ALTER USER USER() IDENTIFIED BY 'B8#~egyy0';
-
-mysqldump --all-databases --triggers --routines --master-data --ignore-table=bet.events_on_demand --ignore-table=bet.v_same_event -uroot -p > master.sql
-
-CHANGE MASTER TO MASTER_HOST = "192.168.57.11", MASTER_PORT = 3306, MASTER_USER = "repl", MASTER_PASSWORD = "!OtusLinux2018", MASTER_AUTO_POSITION = 1; START SLAVE;
-
-
-
-
 # Репликация mysql
 
 - Разворачивает виртуалки в Vagrant (master,slave) с установкой mysql версии 5.7
