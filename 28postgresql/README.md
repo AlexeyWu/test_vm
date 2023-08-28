@@ -46,16 +46,23 @@ postgresql.auto.conf - предназначен для автоматическ�
 Помимо репликации, рекомендуется создавать резервные копии. Они могут потребоваться, если вдруг сервера СУБД выйдут из строя. 
 
 
+Запускаем наш Vagrantfile
+``` 
+vagrantfile up --no-provision
+```
+После установки нод запускаем настройку репликации и бекапировани с помощью ansible
+
+```
+vagrantfile up --no-provision
+```
 
 
-
-
-
-
-
+проверяем как синхронизируется со slave наша db
 
 
 # NODE1
+Создаем базу данных 
+
 ```
 postgres=# CREATE DATABASE otus_test;
 CREATE DATABASE
@@ -72,7 +79,10 @@ postgres=# postgres=# \l
 (4 rows)
 ```
 
+
 # NODE2
+проверяем репликацию
+
 ```
 postgres=# postgres=# \l
                                   List of databases
@@ -87,14 +97,10 @@ postgres=# postgres=# \l
 (4 rows)
 ```
 
-
-
-
-
-
-
+Так же можно проверить таким методом
 
 # NODE1
+
 ```
 postgres=# select * from pg_stat_replication;
   pid  | usesysid |   usename   | application_name |  client_addr  | client_hostname | client_port |         backend_start         | backend_xmin |   state   | sent_lsn  | write_lsn | flus
@@ -121,3 +127,4 @@ postgres=# select * from pg_stat_wal_receiver;
 plication_name=walreceiver sslmode=prefer sslcompression=0 sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=prefer krbsrvname=postgres target_session_attrs=any
 (1 row)
 ```
+
