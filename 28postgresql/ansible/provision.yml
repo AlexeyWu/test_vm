@@ -20,9 +20,9 @@
    - postgres_replication
 
 #Запуск роли install_barman на всех хостах
-#- name: set up backup
-#  hosts: all
-#  become: yes
-#  roles:
-#   - install_barman
+- name: set up backup
+  hosts: all
+  become: yes
+  roles:
+   - install_barman
 

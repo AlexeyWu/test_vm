@@ -5,7 +5,7 @@
       name:
         - python3
         #- python3-pexpect
-        - python36-pexpect
+        #- python36-pexpect
         - bash-completion 
         - wget 
       state: present
@@ -35,7 +35,7 @@
   # Добавляем postgres репозиторий на хост barman
   - name: install repo
     yum:
-      name: 'https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm'
+      name: http://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
       state: present
     when: (ansible_hostname == "barman")
 
