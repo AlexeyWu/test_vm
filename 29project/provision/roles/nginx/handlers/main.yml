@@ -1,0 +1,18 @@
+---
+- name: restart nginx 
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
+- name: restart php-fpm
+  systemd:
+    name: php-fpm
+    enabled: yes
+    state: started 
+
+- name: restart iscsi 
+  systemd:
+    name: iscsid
+    enabled: yes
+    state: started    

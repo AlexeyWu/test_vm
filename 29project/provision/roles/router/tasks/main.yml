@@ -1,0 +1,38 @@
+---
+- name: Set timezone
+  timezone:
+    name: Europe/Moscow
+
+- name: 'Config sysctl ip_forward'
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+  notify:
+    - restart network 
+
+- name: Firewalld service - firewalld is running
+  systemd:
+    name: firewalld
+    enabled: true
+    state: started  
+
+- name: Add Masquerade
+  firewalld:
+    masquerade: true
+    state: enabled
+    permanent: true
+
+- name: Add port forward
+  shell: |
+    firewall-cmd --permanent --add-forward-port=port=443:proto=tcp:toport=443:toaddr=192.168.10.20
+    firewall-cmd --permanent --direct --passthrough ipv4 -t nat -A POSTROUTING -d 192.168.10.20/32 -p tcp --dport 443 -j SNAT --to-source 192.168.10.10
+  args:
+    executable: /bin/bash
+
+- name: 'Reload Firewalld'
+  systemd:
+    name: firewalld
+    state: reloaded   

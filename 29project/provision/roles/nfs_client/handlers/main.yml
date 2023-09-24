@@ -1,0 +1,12 @@
+---
+- name: restart rpcbind
+  systemd:
+    name: rpcbind
+    enabled: yes
+    state: restarted  
+
+- name: restart nfs
+  systemd:
+    name: mnt-share.mount
+    enabled: yes
+    state: restarted      

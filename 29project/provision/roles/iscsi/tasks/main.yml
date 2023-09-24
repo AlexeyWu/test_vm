@@ -1,0 +1,95 @@
+---
+### Epel Release
+- name: Epel release
+  yum:
+    name: epel-release
+    state: present    
+
+#### Congig LVM and mount 
+- name: 'Install packages'
+  yum:
+    name: "{{ item }}"
+    state: 'present'
+  loop:
+    - lvm2
+    - scsi-target-utils
+    - dkms
+    - setools
+    - policycoreutils-python  
+  notify:
+    - restart iscsi  
+
+- name: Create volume group on /dev/sdb and /dev/sdc
+  lvg:
+    vg: vg01
+    pvs: /dev/sdb,/dev/sdc
+    state: present
+
+- name: Create a logical volume of 2048m with disks /dev/sda and /dev/sdb
+  lvol:
+    vg: vg01
+    lv: otus
+    size: '2048'
+    pvs: /dev/sdb,/dev/sdc
+    opts: -m1
+    state: present
+
+- name: Create a ext4 filesystem on LVM
+  filesystem:
+    fstype: ext4
+    dev: /dev/vg01/otus 
+
+- name: Create a directory for iSCSI
+  file:
+    path: /var/lib/iscsi_disks
+    state: directory
+
+- name: Mount up device
+  mount:
+    path: /var/lib/iscsi_disks
+    src: /dev/vg01/otus
+    fstype: ext4
+    state: present
+
+- name: mount all
+  command: mount -a
+  args:
+    warn: no
+  become: true        
+
+### iSCSI SELinux
+
+- name: Allow SELinux change context
+  command: "chcon -R -t tgtd_var_lib_t /var/lib/iscsi_disks"
+
+- name: Allow SELinux fcontext
+  command: "semanage fcontext -a -t tgtd_var_lib_t /var/lib/iscsi_disks"      
+
+### iSCSI config
+- name: Create disk 
+  command: dd if=/dev/zero of=/var/lib/iscsi_disks/disk01.img bs=1M count=1536      
+
+- name: 'iSCSI Target Congig'
+  copy: 
+    src: files/target01.conf
+    dest: /etc/tgt/conf.d/  
+  notify:
+    - restart iscsi  
+
+### Firewall settings    
+- name: Firewalld service - firewalld is running
+  systemd:
+    name: firewalld
+    enabled: true
+    state: started  
+
+- name: 'Enable iSCSI service in Firewalld'
+  firewalld:
+    service: iscsi-target
+    permanent: yes
+    state: enabled
+
+- name: 'Reload Firewalld'
+  systemd:
+    name: firewalld
+    state: reloaded 

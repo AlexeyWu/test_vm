@@ -1,0 +1,16 @@
+---
+- name: restart mysql
+  systemd:
+    name: mariadb
+    state: restarted
+
+- name: restart zabbix
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: restarted         
+  loop:
+      - zabbix-server 
+      - zabbix-agent 
+      - httpd 
+      - rh-php72-php-fpm  

@@ -1,0 +1,23 @@
+---
+mysql_user: "alex"
+mysql_user_password: "Otus#Linux2023"
+
+mysql_config_dir: /etc/my.cnf.d
+mysql_root_password: "Otus#Linux2023"
+mysql_root_mycnf_path: /root/.my.cnf
+
+mysql_db_name: wordpress
+
+mysql_replication_user: 'repl'
+mysql_replication_user_password: 'Otus#Linux2023'
+mysql_replication_user_privilege: '*.*:REPLICATION SLAVE'
+
+mysql_replication_dump_path: /tmp/master.sql
+
+mysql_master_ip: '192.168.10.30'
+mysql_master_port: '3306'
+mysql_master_user: 'repl'
+mysql_master_password: 'Otus#Linux2023'
+mysql_master_auto_position: 'yes'
+
+mysql_replication_config_base: /etc/my.cnf.d/01-base.cnf

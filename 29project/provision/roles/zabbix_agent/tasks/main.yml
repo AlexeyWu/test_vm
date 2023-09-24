@@ -1,0 +1,36 @@
+---
+- name: install the Zabbix repo
+  yum:
+    name: http://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
+    state: present
+
+- name: yum-clean-all
+  command: yum clean all
+  args:
+    warn: no  
+
+- name: Install Zabbix Agent
+  yum:
+    name: zabbix-agent
+    state: present   
+
+- name: 'Config Zabbix Agent'
+  lineinfile:
+    path:  /etc/zabbix/zabbix_agentd.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^Server=127.0.0.1', line: 'Server={{ zabbix_server_ip }}'}
+    - { regexp: '^Hostname=', line: 'Hostname={{ zabbix_hostname }}'}
+  notify:
+    - restart zabbix
+
+- firewalld:
+    service: zabbix-agent
+    permanent: yes
+    state: enabled        
+
+- name: 'Reload Firewalld'
+  systemd:
+    name: firewalld
+    state: reloaded  

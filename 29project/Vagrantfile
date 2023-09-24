@@ -29,7 +29,7 @@ MACHINES = {
     :disks => {},
   }, 
 
-  :storage => {
+  :iscsi => {
     :box_name => "centos/7",
     :memory => 512,
     :cpus => 1,

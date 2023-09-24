@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount-NFS-Share
+
+[Mount]
+What=192.168.10.90:/var/nfs/
+Where=/mnt/share/
+Type=nfs
+Options=defaults,proto=tcp
+
+[Install]
+WantedBy=multi-user.target

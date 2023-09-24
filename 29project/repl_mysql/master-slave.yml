@@ -1,0 +1,65 @@
+---
+- name: 'Reconfig MySQL Master to Slave'
+  hosts: all
+  become: true
+
+  vars:
+    mysql_master_ip: 192.168.10.30
+    mysql_slave_ip: 192.168.10.35
+
+    mysql_slave_port: '3306'
+    mysql_slave_user: 'repl'
+    mysql_slave_password: 'Otus#Linux2023'
+    mysql_slave_auto_position: 'yes'
+
+  tasks:  
+
+    - name: Config Slave to Master
+      block:
+
+        - name: stop slave
+          shell: |
+            mysql -e "stop slave;"
+            mysql -e "reset master;"
+
+        - name: Change slave to host "master"
+          mysql_replication:
+            mode: changemaster
+            master_host: "{{ mysql_slave_ip }}"
+      when: ansible_hostname == 'mysqlslave'
+ 
+    - name: Config Master to Slave
+      block:
+
+        - name: Start old Master
+          systemd:
+            name: mysql
+            state: started   
+
+        - name: stop slave
+          shell: mysql -e "reset master;"
+
+        - name: Change slave to host "master"
+          mysql_replication:
+            mode: changemaster
+            master_host: "{{ mysql_slave_ip }}"
+            master_port: "{{ mysql_slave_port }}"
+            master_user: "{{ mysql_slave_user }}"
+            master_password: "{{ mysql_slave_password }}"
+            master_auto_position: "{{ mysql_slave_auto_position }}"
+
+        - name: Start slave
+          mysql_replication:
+            mode: startslave      
+      when: ansible_hostname == 'mysqlmaster'
+
+
+    - name: Config Wordpress MySQL Database set
+      block:
+
+        - name: Config Wordpress 
+          lineinfile:
+            path:  /usr/share/nginx/html/wordpress/wp-config.php
+            regexp: "^define( 'DB_HOST', '192.168.10.30' );"
+            line: "define( 'DB_HOST', '192.168.10.35' );"
+      when: ansible_hostname == 'nginx'

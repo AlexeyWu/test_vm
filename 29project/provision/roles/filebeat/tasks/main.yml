@@ -1,0 +1,55 @@
+---
+- name: Add ELK Repository
+  yum_repository:
+    name: elasticsearch-7
+    description: ELK
+    file: elasticserach.repo
+    baseurl: https://artifacts.elastic.co/packages/7.x/yum
+    gpgcheck: true
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    enabled: true     
+
+- name: 'Install Filebeat'
+  yum:
+    name: filebeat
+    state: present
+
+- name: 'Configure Filebeat'
+  copy: 
+    src: files/filebeat.yml 
+    dest: /etc/filebeat/filebeat.yml
+  notify:
+    - restart filebeat
+
+- name: 'Filebeat MySQL'
+  shell: |
+    filebeat modules enable mysql   
+    filebeat setup
+  notify:
+    - restart filebeat 
+  when: ansible_hostname == 'mysqlmaster' or ansible_hostname == 'mysqlslave'  
+
+
+- name: 'Filebeat Nginx'
+  shell: |
+    filebeat modules enable nginx   
+    filebeat setup
+  notify:
+    - restart filebeat    
+  when: ansible_hostname == 'nginx'  
+
+
+- name: Add port to firewalld
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop:
+    - 5601/tcp
+    - 9200/tcp
+    - 9300/tcp
+
+- name: 'Reload Firewalld'
+  systemd:
+    name: firewalld
+    state: reloaded   

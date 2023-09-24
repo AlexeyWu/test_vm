@@ -1,0 +1,65 @@
+---
+- hosts: router
+  become: true
+  roles: 
+    - router
+    - zabbix_agent
+    - filebeat
+
+
+- hosts: elk
+  become: true
+  roles:
+    - linux
+    - elk
+    - zabbix_agent
+
+- hosts: iscsi
+  become: true
+  roles:
+    - linux
+    - iscsi
+    - zabbix_agent
+    - filebeat
+
+- hosts: mysqlmaster
+  become: true
+  roles:
+    - linux
+    - mysql
+    - zabbix_agent
+    - filebeat
+    - nfs_client
+
+- hosts: mysqlslave
+  become: true
+  roles:
+    - linux
+    - mysql
+    - zabbix_agent
+    - filebeat
+    - nfs_client
+
+- hosts: nginx
+  become: true
+  roles:
+    - linux
+    - nginx
+    - zabbix_agent
+    - filebeat
+    - nfs_client
+
+- hosts: zabbix
+  become: true
+  roles:
+    - linux
+    - zabbix
+    - filebeat    
+
+- hosts: backup
+  become: true
+  roles:
+    - linux
+    - nfs_server
+    - zabbix_agent
+    - filebeat      

@@ -1,0 +1,288 @@
+alexey@alexey-ThinkPad-L390:~/test_vm/29project$ vagrant up --provision nginx
+Bringing machine 'nginx' up with 'virtualbox' provider...
+==> nginx: Checking if box 'centos/7' version '2004.01' is up to date...
+==> nginx: Running provisioner: ansible...
+    nginx: Running ansible-playbook...
+
+PLAY [router] ******************************************************************
+skipping: no hosts matched
+
+PLAY [elk] *********************************************************************
+skipping: no hosts matched
+
+PLAY [iscsi] *******************************************************************
+skipping: no hosts matched
+
+PLAY [mysqlmaster] *************************************************************
+skipping: no hosts matched
+
+PLAY [mysqlslave] **************************************************************
+skipping: no hosts matched
+
+PLAY [nginx] *******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [nginx]
+
+TASK [linux : Set timezone] ****************************************************
+ok: [nginx]
+
+TASK [linux : Remove default route] ********************************************
+ok: [nginx]
+
+TASK [linux : Add gateway] *****************************************************
+ok: [nginx]
+
+TASK [nginx : Install packages] ************************************************
+ok: [nginx]
+
+TASK [nginx : Connect iSCSI disk] **********************************************
+changed: [nginx]
+
+TASK [nginx : Create a directory] **********************************************
+ok: [nginx]
+
+TASK [nginx : Parted iSCSI disk] ***********************************************
+ok: [nginx]
+
+TASK [nginx : Add Nginx Repository] ********************************************
+ok: [nginx]
+
+TASK [nginx : Install Nginx] ***************************************************
+ok: [nginx]
+
+TASK [nginx : Copy Certificates] ***********************************************
+ok: [nginx] => (item=ca.crt)
+ok: [nginx] => (item=private.key)
+ok: [nginx] => (item=certificate.crt)
+
+TASK [nginx : Configure Nginx] *************************************************
+ok: [nginx]
+
+TASK [nginx : Configure Nginx Wordpress] ***************************************
+ok: [nginx]
+
+TASK [nginx : Install remi repo] ***********************************************
+ok: [nginx]
+
+TASK [nginx : Enable remi-php74] ***********************************************
+changed: [nginx]
+
+TASK [nginx : Install PHP-FPM] *************************************************
+ok: [nginx] => (item=php)
+ok: [nginx] => (item=php-fpm)
+ok: [nginx] => (item=php-mbstring)
+failed: [nginx] (item=php-mysql) => {"ansible_loop_var": "item", "changed": false, "item": "php-mysql", "msg": "Failure talking to yum: failure: repodata/primary.xml.gz from elasticsearch-7: [Errno 256] No more mirrors to try.\nhttps://artifacts.elastic.co/packages/7.x/yum/repodata/primary.xml.gz: [Errno 14] HTTPS Error 403 - Forbidden"}
+ok: [nginx] => (item=php-xml)
+failed: [nginx] (item=php-simplexml) => {"ansible_loop_var": "item", "changed": false, "item": "php-simplexml", "msg": "Failure talking to yum: failure: repodata/primary.xml.gz from elasticsearch-7: [Errno 256] No more mirrors to try.\nhttps://artifacts.elastic.co/packages/7.x/yum/repodata/primary.xml.gz: [Errno 14] HTTPS Error 403 - Forbidden"}
+ok: [nginx] => (item=libsemanage-python)
+
+PLAY RECAP *********************************************************************
+nginx                      : ok=15   changed=2    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+Ansible failed to complete successfully. Any error output should be
+visible above. Please fix these errors and try again.
+alexey@alexey-ThinkPad-L390:~/test_vm/29project$ vagrant up --provision nginx
+Bringing machine 'nginx' up with 'virtualbox' provider...
+==> nginx: Checking if box 'centos/7' version '2004.01' is up to date...
+==> nginx: Running provisioner: ansible...
+    nginx: Running ansible-playbook...
+
+PLAY [router] ******************************************************************
+skipping: no hosts matched
+
+PLAY [elk] *********************************************************************
+skipping: no hosts matched
+
+PLAY [iscsi] *******************************************************************
+skipping: no hosts matched
+
+PLAY [mysqlmaster] *************************************************************
+skipping: no hosts matched
+
+PLAY [mysqlslave] **************************************************************
+skipping: no hosts matched
+
+PLAY [nginx] *******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [nginx]
+
+TASK [linux : Set timezone] ****************************************************
+ok: [nginx]
+
+TASK [linux : Remove default route] ********************************************
+ok: [nginx]
+
+TASK [linux : Add gateway] *****************************************************
+ok: [nginx]
+
+TASK [nginx : Install packages] ************************************************
+ok: [nginx]
+
+TASK [nginx : Connect iSCSI disk] **********************************************
+changed: [nginx]
+
+TASK [nginx : Create a directory] **********************************************
+ok: [nginx]
+
+TASK [nginx : Parted iSCSI disk] ***********************************************
+ok: [nginx]
+
+TASK [nginx : Add Nginx Repository] ********************************************
+ok: [nginx]
+
+TASK [nginx : Install Nginx] ***************************************************
+ok: [nginx]
+
+TASK [nginx : Copy Certificates] ***********************************************
+ok: [nginx] => (item=ca.crt)
+ok: [nginx] => (item=private.key)
+ok: [nginx] => (item=certificate.crt)
+
+TASK [nginx : Configure Nginx] *************************************************
+ok: [nginx]
+
+TASK [nginx : Configure Nginx Wordpress] ***************************************
+ok: [nginx]
+
+TASK [nginx : Install remi repo] ***********************************************
+ok: [nginx]
+
+TASK [nginx : Enable remi-php74] ***********************************************
+changed: [nginx]
+
+TASK [nginx : Install PHP-FPM] *************************************************
+ok: [nginx] => (item=php)
+ok: [nginx] => (item=php-fpm)
+ok: [nginx] => (item=php-mbstring)
+ok: [nginx] => (item=php-mysql)
+ok: [nginx] => (item=php-xml)
+ok: [nginx] => (item=php-simplexml)
+ok: [nginx] => (item=libsemanage-python)
+
+TASK [nginx : Change php-fpm to listen on socket] ******************************
+ok: [nginx]
+
+TASK [nginx : php-fpm listen mode should always be 0660] ***********************
+ok: [nginx]
+
+TASK [nginx : Change php-fpm user] *********************************************
+ok: [nginx]
+
+TASK [nginx : Change php-fpm group] ********************************************
+ok: [nginx]
+
+TASK [nginx : Change php-fpm listen.owner] *************************************
+ok: [nginx]
+
+TASK [nginx : Change php-fpm listen.group] *************************************
+ok: [nginx]
+
+TASK [nginx : Firewalld service - firewalld is running] ************************
+ok: [nginx]
+
+TASK [nginx : Enable http ports in Firewalld] **********************************
+ok: [nginx]
+
+TASK [nginx : Enable https ports in Firewalld] *********************************
+ok: [nginx]
+
+TASK [nginx : Reload Firewalld] ************************************************
+changed: [nginx]
+
+TASK [nginx : restart php-fpm] *************************************************
+ok: [nginx]
+
+TASK [nginx : download WordPress] **********************************************
+ok: [nginx]
+
+TASK [nginx : Configure Wordpress db] ******************************************
+ok: [nginx]
+
+TASK [nginx : Set httpd_can_network_connect flag on and keep it persistent across reboots] ***
+ok: [nginx]
+
+TASK [nginx : Change context wordpress directory] ******************************
+changed: [nginx]
+
+TASK [zabbix_agent : install the Zabbix repo] **********************************
+ok: [nginx]
+
+TASK [zabbix_agent : yum-clean-all] ********************************************
+changed: [nginx]
+
+TASK [zabbix_agent : Install Zabbix Agent] *************************************
+ok: [nginx]
+
+TASK [zabbix_agent : Config Zabbix Agent] **************************************
+ok: [nginx] => (item={'regexp': '^Server=127.0.0.1', 'line': 'Server=192.168.10.50'})
+ok: [nginx] => (item={'regexp': '^Hostname=', 'line': 'Hostname=nginx'})
+
+TASK [zabbix_agent : firewalld] ************************************************
+ok: [nginx]
+
+TASK [zabbix_agent : Reload Firewalld] *****************************************
+changed: [nginx]
+
+TASK [filebeat : Add ELK Repository] *******************************************
+ok: [nginx]
+
+TASK [filebeat : Install Filebeat] *********************************************
+	changed: [nginx]
+
+TASK [filebeat : Configure Filebeat] *******************************************
+changed: [nginx]
+
+TASK [filebeat : Filebeat MySQL] ***********************************************
+skipping: [nginx]
+
+TASK [filebeat : Filebeat Nginx] ***********************************************
+changed: [nginx]
+
+TASK [filebeat : Add port to firewalld] ****************************************
+changed: [nginx] => (item=5601/tcp)
+changed: [nginx] => (item=9200/tcp)
+changed: [nginx] => (item=9300/tcp)
+
+TASK [filebeat : Reload Firewalld] *********************************************
+changed: [nginx]
+
+TASK [nfs_client : Install NFS Utils] ******************************************
+ok: [nginx]
+
+TASK [nfs_client : Create a directory] *****************************************
+changed: [nginx]
+
+TASK [nfs_client : NFS Systemd config] *****************************************
+changed: [nginx]
+
+TASK [nfs_client : Copy Backup Scripts] ****************************************
+skipping: [nginx] => (item=base_backup.sh) 
+skipping: [nginx] => (item=base_restore.sh) 
+
+TASK [nfs_client : Copy Backup Scripts] ****************************************
+changed: [nginx] => (item=site_backup.sh)
+changed: [nginx] => (item=site_restore.sh)
+
+TASK [nfs_client : Mount backup folder] ****************************************
+[WARNING]: Consider using 'become', 'become_method', and 'become_user' rather
+than running sudo
+changed: [nginx]
+
+RUNNING HANDLER [filebeat : restart filebeat] **********************************
+changed: [nginx]
+
+RUNNING HANDLER [nfs_client : restart nfs] *************************************
+changed: [nginx]
+
+PLAY [zabbix] ******************************************************************
+skipping: no hosts matched
+
+PLAY [backup] ******************************************************************
+skipping: no hosts matched
+
+PLAY RECAP *********************************************************************
+nginx                      : ok=50   changed=17   unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+
+

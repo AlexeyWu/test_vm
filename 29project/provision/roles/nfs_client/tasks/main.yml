@@ -1,0 +1,43 @@
+---
+- name: 'Install NFS Utils'
+  yum:
+    name: nfs-utils
+    state: present
+  notify:
+    - restart rpcbind 
+
+- name: 'Create a directory'
+  file:
+    path: /mnt/share
+    state: directory
+
+- name: 'NFS Systemd config'  
+  copy: 
+    src: files/mnt-share.mount 
+    dest: /etc/systemd/system/mnt-share.mount
+
+- name: 'Copy Backup Scripts'  
+  copy:
+    src: files/{{ item }} 
+    dest: /home/vagrant/
+    mode: a+x
+  with_items:
+    ['base_backup.sh','base_restore.sh']   
+  when: ansible_hostname == 'mysqlmaster' or ansible_hostname == 'mysqlslave'
+
+- name: 'Copy Backup Scripts'  
+  copy:
+    src: files/{{ item }}
+    dest: /home/vagrant/
+    mode: a+x
+  with_items:
+    ['site_backup.sh','site_restore.sh']   
+  when: ansible_hostname == 'nginx'
+
+- name: 'Mount backup folder'
+  shell: |
+    sudo mount -t nfs -o tcp 192.168.10.90:/var/nfs/ /mnt/share/
+  become: yes
+  notify:
+    - restart nfs  
+ 

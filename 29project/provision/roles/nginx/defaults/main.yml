@@ -1,0 +1,5 @@
+---
+wordpress_url: "http://wordpress.org/latest.tar.gz"
+wpdirectory: "/usr/share/nginx/html"
+
+iscsi_disk_path: "/usr/share/nginx/html/wordpress"

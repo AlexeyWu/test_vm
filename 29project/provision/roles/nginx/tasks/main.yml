@@ -1,0 +1,189 @@
+---
+## iSCSI disk attach
+
+- name: 'Install packages'
+  yum:
+    name: iscsi-initiator-utils 
+    state: 'present'
+  notify:
+    - restart iscsi 
+
+- name: Connect iSCSI disk
+  shell: "iscsiadm -m discovery -t sendtargets -p 192.168.10.100 && iscsiadm -m node --login"
+
+- name: Create a directory
+  file:
+    path: "{{ iscsi_disk_path }}"
+    state: directory
+
+- name: Parted iSCSI disk
+  shell: |
+    touch /root/.parted
+    parted -s /dev/sdb mklabel gpt
+    parted /dev/sdb mkpart primary ext4 0% 100%
+    mkfs.ext4 /dev/sdb1 
+    mount -t ext4 /dev/sdb1 {{ iscsi_disk_path }}
+    echo "/dev/sdb1 {{ iscsi_disk_path }} ext4 _netdev 0 0" >> /etc/fstab
+  args:
+    creates: /root/.parted
+
+- name: Add Nginx Repository
+  yum_repository:
+    name: nginx
+    description: NGINX
+    file: nginx
+    baseurl: https://nginx.org/packages/mainline/centos/$releasever/$basearch/
+    gpgcheck: false
+    enabled: true 
+
+- name: 'Install Nginx'
+  yum:
+    name: nginx
+    state: present      
+
+- name: 'Copy Certificates'
+  copy:
+    src: files/{{ item }}
+    dest: /etc/ssl/
+  with_items:
+    ['ca.crt','private.key','certificate.crt']            
+
+- name: 'Configure Nginx'
+  copy: 
+    src: files/nginx.conf 
+    dest: /etc/nginx/nginx.conf
+  notify:
+    - restart nginx   
+
+- name: 'Configure Nginx Wordpress'
+  copy: 
+    src: files/wordpress.conf 
+    dest: /etc/nginx/conf.d/
+  notify:
+    - restart nginx           
+
+- name: 'Install remi repo'
+  yum:
+    name: http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    state: present
+
+- name: 'Enable remi-php74'
+  shell: yum-config-manager --enable remi-php74  
+
+- name: 'Install PHP-FPM'
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - php
+    - php-fpm
+    - php-mbstring
+    - php-mysql
+    - php-xml
+    - php-simplexml
+    - libsemanage-python
+
+- name: 'Change php-fpm to listen on socket'
+  ini_file: dest=/etc/php-fpm.d/www.conf
+    section=www
+    option=listen
+    value=/var/run/php-fpm/php-fpm.sock
+  notify:
+    - restart php-fpm                
+
+
+- name: 'php-fpm listen mode should always be 0660'
+  ini_file: dest=/etc/php-fpm.d/www.conf
+    section=www
+    option=listen.mode
+    value=0660
+  notify:
+    - restart php-fpm      
+
+- name: 'Change php-fpm user'
+  ini_file: dest=/etc/php-fpm.d/www.conf
+    section=www
+    option=user
+    value=nginx
+  notify:
+    - restart php-fpm
+
+- name: 'Change php-fpm group'
+  ini_file: dest=/etc/php-fpm.d/www.conf
+    section=www
+    option=group
+    value=nginx
+  notify:
+    - restart php-fpm
+
+- name: 'Change php-fpm listen.owner'
+  ini_file: dest=/etc/php-fpm.d/www.conf
+    section=www
+    option=listen.owner
+    value=nginx
+  notify:
+    - restart php-fpm
+
+- name: 'Change php-fpm listen.group'
+  ini_file: dest=/etc/php-fpm.d/www.conf
+    section=www
+    option=listen.group
+    value=nginx
+  notify:
+    - restart php-fpm
+
+### Firewall
+- name: Firewalld service - firewalld is running
+  systemd:
+    name: firewalld
+    enabled: true
+    state: started 
+
+- name: 'Enable http ports in Firewalld'
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+
+- name: 'Enable https ports in Firewalld'
+  firewalld:
+    service: https
+    permanent: yes
+    state: enabled 
+
+- name: 'Reload Firewalld'
+  systemd:
+    name: firewalld
+    state: reloaded 
+
+- name: restart php-fpm
+  systemd:
+    name: php-fpm
+    enabled: yes
+    state: started     
+
+- name: download WordPress
+  unarchive:
+    src: "{{ wordpress_url }}"
+    dest: "{{ wpdirectory }}"
+    remote_src: yes
+  args:
+    creates: "{{ wpdirectory }}/wp-config-sample.php" 
+    
+- name: 'Configure Wordpress db'
+  copy: 
+    src: files/wp-config.php 
+    dest: "{{ wpdirectory }}"
+  notify:
+    - restart nginx  
+
+#### SELinux config for Nginx
+- name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+  seboolean:
+    name: httpd_can_network_connect_db
+    state: yes
+    persistent: yes 
+
+- name: Change context wordpress directory
+  shell: chcon -R -t httpd_sys_content_t {{ iscsi_disk_path }}
+  

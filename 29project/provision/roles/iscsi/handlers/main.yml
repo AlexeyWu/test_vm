@@ -1,0 +1,6 @@
+---
+- name: restart iscsi 
+  systemd:
+    name: tgtd
+    enabled: yes
+    state: restarted

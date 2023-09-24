@@ -1,0 +1,189 @@
+---
+#install DB
+- name: Install Epel-release & MDBsrv
+  yum:
+    name: "{{ item }}"
+    state: present    
+  loop:
+    - epel-release
+    - mariadb-server
+    - MySQL-python
+
+  
+- name: enable mysql (mariadb)
+  systemd:
+    name: mariadb
+    state: restarted
+    enabled: yes
+    
+    
+- name: 'mysql_root_password'
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_password }}"
+    user: root
+    check_implicit_admin: true
+    password: "{{ mysql_password }}"
+    host: localhost
+
+- name: 'root password'
+  blockinfile:
+    path: ~/.my.cnf
+    create: yes
+    block: |
+      [client]
+      user=root
+      password={{ mysql_password }}   
+
+- name: Create database for Zabbix
+  mysql_db:
+    name: zabbix
+    encoding: utf8
+    collation: utf8_bin  
+    state: present    
+    
+  
+- name: create mysql zabbix user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_password }}"
+    name: "zabbix"
+    password: 'zabbix'
+    priv: 'zabbix.*:ALL,GRANT'
+    state: present
+  no_log: true  
+
+
+- name: Restore Zabbix database
+  mysql_db:
+    name: zabbix
+    state: import
+    target: /vagrant/provision/roles/zabbix/files/zabbix.sql.gz  
+  no_log: false    
+
+#Zabbix install
+
+- name: install the Zabbix repo
+  yum:
+    name: http://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
+    state: present
+
+- name: yum-clean-all
+  command: yum clean all
+  args:
+    warn: no  
+    
+- name: Install Zabbix Server and Agent
+  yum:
+    name: "{{ item }}"
+    state: present    
+  loop:
+    - zabbix-server-mysql
+    - zabbix-agent
+        
+- name: Install Zabbix centos-release-scl
+  yum:
+    name: "{{ item }}"
+    state: present    
+  loop:
+    - centos-release-scl
+    
+- name: 'Enable Zabbix frontend repo'
+  ini_file: dest=/etc/yum.repos.d/zabbix.repo
+    section="zabbix-frontend"
+    option=enabled
+    value=1  
+
+
+- name: Install Zabbix web
+  yum:
+    name: "{{ item }}"
+    state: present    
+  loop:
+    - zabbix-web-mysql-scl 
+    - zabbix-apache-conf-scl
+    
+- name: 'Config Zabbix'
+  lineinfile:
+    path:  "{{ item.path }}" 
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { path: '/etc/zabbix/zabbix_server.conf', regexp: '^# DBPassword=', line: 'DBPassword=zabbix'} 
+    - { path: '/etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf', regexp: '^; php_value[date.timezone] = Europe/Riga', line: 'php_value[date.timezone] = Europe/Moscow'}
+  notify:
+    - restart zabbix
+    - restart mysql
+
+- name: restart & enable all
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  loop:
+    - zabbix-server
+    - zabbix-agent
+    - httpd
+    - rh-php72-php-fpm
+#test can connect    
+
+- name: Set Sebool for Zabbix
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes    
+
+- name: Set Sebool for Zabbix
+  seboolean:
+    name: httpd_can_connect_zabbix 
+    state: yes
+    persistent: yes  
+
+- name: Set Sebool for Zabbix
+  seboolean:
+    name: zabbix_can_network 
+    state: yes
+    persistent: yes 
+  notify:
+    - restart zabbix    
+
+- name: "SELinux | RedHat | Add SEmodule to fix SELinux issue: zabbix_server_alerter.sock"
+  script:
+    cmd: files/install_semodule.bsx
+  args:
+    creates: /etc/selinux/targeted/active/modules/400/zabbix_server_add/cil
+    become: yes                          
+
+
+### Firewall Settings 
+
+- name: Firewalld service - firewalld is running
+  systemd:
+    name: firewalld
+    enabled: true
+    state: started  
+
+- firewalld:
+    service: zabbix-server
+    permanent: true
+    state: enabled 
+
+- firewalld:
+    service: zabbix-agent
+    permanent: true
+    state: enabled 
+
+- firewalld:
+    service: http
+    permanent: true
+    state: enabled 
+
+- firewalld:
+    service: https
+    permanent: true
+    state: enabled 
+
+- name: 'Reload Firewalld'
+  systemd:
+    name: firewalld
+    state: reloaded            

@@ -1,0 +1,10 @@
+---
+- name: restart elk 
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: restarted
+  loop:
+    - elasticsearch.service
+    - kibana.service
+    - logstash.service
